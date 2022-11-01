@@ -10,6 +10,7 @@ namespace PowerDimmer
 {
     public partial class App : Application
     {
+        private Win32.WinEventDelegate? eventDelegate;
         private IntPtr curFgHwnd;
         private ISettings settings;
         private List<DimWindow> dimWindows { get; } = new();
@@ -81,7 +82,7 @@ namespace PowerDimmer
                 dimOn(curFgHwnd);
             }
 
-            var eventDelegate = new Win32.WinEventDelegate(WinEventProc);
+            eventDelegate = new Win32.WinEventDelegate(WinEventProc);
             Win32.SetWinEventHook(Win32.EVENT_SYSTEM_FOREGROUND, Win32.EVENT_SYSTEM_FOREGROUND,
                                   IntPtr.Zero, eventDelegate, 0, 0, Win32.WINEVENT_OUTOFCONTEXT);
         }
